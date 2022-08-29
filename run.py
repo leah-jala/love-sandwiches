@@ -70,7 +70,7 @@ def update_sales_worksheet(data):
     sales_worksheet.append_row(data)
     print("Sales worksheet updated successfully.\n")
 
-def calculate_surplus_data(sales_data):
+def calculate_surplus_data(sales_row):
     """
     Calculate surplus stock
     - positive numbers equal surplus/waste
@@ -80,7 +80,13 @@ def calculate_surplus_data(sales_data):
     stock = SHEET.worksheet("stock").get_all_values()
     pprint(stock)
     stock_row = stock[-1]
-    print(f"The last row is : {stock_row}")
+
+    surplus_data =[]
+    for stock, sales in zip(stock_row, sales_row):
+        surplus = int(stock) - sales
+        surplus_data.append(surplus)
+    print(surplus_data)
+
 
 def main():
     """
