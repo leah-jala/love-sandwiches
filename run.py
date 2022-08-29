@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+from pprint import pprint
 
 
 # Settings to access worksheet data
@@ -67,8 +68,28 @@ def update_sales_worksheet(data):
     print("Updating sales worksheet...\n")
     sales_worksheet = SHEET.worksheet("sales")
     sales_worksheet.append_row(data)
-    print("Sales worksheet updated successfully.")
+    print("Sales worksheet updated successfully.\n")
 
-data = get_sales_data()   
-sales_data = [int(num) for num in data]
-update_sales_worksheet(sales_data)                                                                                                                                                                                                                                                                                                                                                                                                                                
+def calculate_surplus_data(sales_data):
+    """
+    Calculate surplus stock
+    - positive numbers equal surplus/waste
+    - negative numbers  indicate extra was made when stock was sold out
+    """
+    print("Calculating surplus data...")
+    stock = SHEET.worksheet("stock").get_all_values()
+    pprint(stock)
+    stock_row = stock[-1]
+    print(f"The last row is : {stock_row}")
+
+def main():
+    """
+    Run all Program functions
+    """
+    data = get_sales_data()   
+    sales_data = [int(num) for num in data]
+    update_sales_worksheet(sales_data)
+    calculate_surplus_data(sales_data)
+
+print("Welcome to Love Sandwiches Data Automation")
+main()                                                                                                                                                                                                                                                                                                                                                                                                                            
